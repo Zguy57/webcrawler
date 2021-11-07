@@ -1,0 +1,25 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<title>Title</title>
+	</head>
+	<body>
+		<form method="POST" action="/">
+			<input type="text" name="objType" placeholder="object type"/>
+			<input type="text" name="link" placeholder="link"/>
+			<input type="submit"/>
+		</form>
+		<br><br>
+		<table>
+  			<tr>
+    			<th>Instances</th>
+  			</tr>
+		{% for piece in data %}
+			<tr style="text-align: center">
+				<td>{{ piece }}</td>
+			</tr>
+		{% endfor %}
+		</table>
+	</body>
+</html>
