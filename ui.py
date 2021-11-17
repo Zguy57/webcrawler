@@ -7,7 +7,10 @@ app = Flask(__name__)
 def main():
         data = []
         if request.method == "POST":
-                data = scraper.scrape_objects(request.form["objType"],request.form["link"])
+                if not request.form["attr"]:
+                        data = scraper.scrape_objects_text(request.form["objType"],request.form["link"])
+                else:
+                        data = scraper.scrape_objects_attr(request.form["objType"],request.form["link"],request.form["attr"])
         return render_template("base.html",data=data)
 
 if __name__ == '__main__':
