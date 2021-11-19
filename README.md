@@ -1,5 +1,9 @@
 # webcrawler
 
+## General explanation
+
+This webcrawler project allows users to scrape different types of sites of their will. The project uses a simple UI written in Flask (python library) and HTML which allows the user to enter any link and retrieve some data from it.
+0
 ## Files and folders
 
 ### 1)Scraper.py
