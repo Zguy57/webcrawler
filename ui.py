@@ -6,11 +6,20 @@ app = Flask(__name__)
 @app.route("/",methods=["GET","POST"])
 def main():
         data = []
+        numOfSites = 0
         if request.method == "POST":
-                if not request.form["attr"]:
-                        data = scraper.scrape_objects_text(request.form["objType"],request.form["link"])
+                if request.form["attrVal"]:
+
+                        if request.form["attrToScrape"]:
+                                data = scraper.scrape_objects_attr_by_attr(request.form["oaType"],request.form["attrVal"],request.form["link"],request.form["attrToScrape"])
+                        else:
+                                data = scraper.scrape_objects_text_by_attr(request.form["oaType"],request.form["attrVal"],request.form["link"])
                 else:
-                        data = scraper.scrape_objects_attr(request.form["objType"],request.form["link"],request.form["attr"])
+                        if request.form["attrToScrape"]:
+                                data = scraper.scrape_objects_attr_by_type(request.form["oaType"],request.form["link"],request.form["attrToScrape"])
+                        elif request.form["link"]:
+                                data = scraper.scrape_objects_text_by_type(request.form["oaType"],request.form["link"]) 
+
         return render_template("base.html",data=data)
 
 if __name__ == '__main__':

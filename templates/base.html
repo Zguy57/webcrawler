@@ -6,9 +6,11 @@
 	</head>
 	<body>
 		<form method="POST" action="/">
-			<input type="text" name="objType" placeholder="object type"/>
+			<input type="text" name="oaType" placeholder="object type or attribute"/>
+			<input type="text" name="attrVal" placeholder="value of attribute"/>
 			<input type="text" name="link" placeholder="link"/>
-			<input type="text" name="attr" placeholder="attribute"/>
+			<input type="text" name="attrToScrape" placeholder="attribute to scrape"/>
+			<input type="number" name="numOfSites" placeholder="number of sites to compare"/>
 			<input type="submit"/>
 		</form>
 		<br><br>
@@ -22,5 +24,6 @@
 			</tr>
 		{% endfor %}
 		</table>
+		
 	</body>
 </html>
