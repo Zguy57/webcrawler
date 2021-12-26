@@ -32,13 +32,7 @@ def main(numofattrs):
                                 for attrname in attrnames:
                                         for instance in scraper.scrape_object_by_type(rules[rule][0],rules[rule][1],request.form["link"],attrname):
                                                  results[i].append({attrname:instance})
-                results = onlydups(results)
-                for i,res in enumerate(results):
-                        for key in res:
-                                if key in attrs:
-                                        attrs[key].append(res[key])
-                                else:
-                                        attrs[key] = [res[key]]
+                attrs = formatlst(onlydups(results))
         return render_template("base.html",attrs=attrs,numofattrs=int(numofattrs))
 
 def onlydups(lstoflsts):
@@ -52,7 +46,16 @@ def onlydups(lstoflsts):
                 if item != False:
                         toRet.append(item)
         return toRet
-                                        
 
+def formatlst(lst):
+        toRet = {}
+        for i,pair in enumerate(lst):
+                for key in pair:
+                        if key in toRet:
+                                toRet[key].append(pair[key])
+                        else:
+                                toRet[key] = [pair[key]]
+        return toRet
+                                        
 if __name__ == '__main__':
         app.run()
