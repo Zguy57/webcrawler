@@ -5,25 +5,29 @@
 		<title>Title</title>
 	</head>
 	<body>
-		<form method="POST" action="/">
-			<input type="text" name="oaType" placeholder="object type or attribute"/>
+		<form method="POST" action="/main/{{ numofattrs }}">
+			<input type="text" name="objectType" placeholder="object type"/>
+			<input type="text" name="attr" placeholder="attribute"/>
 			<input type="text" name="attrVal" placeholder="value of attribute"/>
 			<input type="text" name="link" placeholder="link"/>
-			<input type="text" name="attrToScrape" placeholder="attribute to scrape"/>
-			<input type="number" name="numOfSites" placeholder="number of sites to compare"/>
+			{% for i in range(numofattrs) %}
+				<input type="text" name="attrToScrape{{i}}" placeholder="attribute to scrape"/>
+			{% endfor %}
+			<input type="text" name="numofattrstoscrape" placeholder="number of attributes to scrape"/>
 			<input type="submit"/>
 		</form>
 		<br><br>
 		<table border="solid">
-  			<tr>
-    			<th>Instances</th>
-  			</tr>
-		{% for piece in data %}
-			<tr style="text-align: center; border: solid">
-				<td>{{ piece }}</td>
-			</tr>
-		{% endfor %}
+			{% for attr in attrs %}
+				<tr style="border: solid">
+					<th>{{ attr }}</th>
+					{% for value in attrs[attr] %}
+						<td>{{ value }}</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
 		</table>
 		
 	</body>
 </html>
+
