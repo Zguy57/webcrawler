@@ -30,10 +30,10 @@ def main(numofattrs):
                                                  results[i].append({attrname:instance})
                         elif rule == "attr":
                                 for attrname in attrnames:
-                                        for instance in scraper.scrape_object_by_type(rules[rule][0],rules[rule][1],request.form["link"],attrname):
+                                        for instance in scraper.scrape_object_by_attr(rules[rule][0],rules[rule][1],request.form["link"],attrname):
                                                  results[i].append({attrname:instance})
                 attrs = formatlst(onlydups(results))
-        return render_template("base.html",attrs=attrs,numofattrs=int(numofattrs))
+        return render_template("main.html",attrs=attrs,numofattrs=int(numofattrs))
 
 def onlydups(lstoflsts):
         toRet = []
