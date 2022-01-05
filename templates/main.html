@@ -1,1 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Main
+{% endblock %}	
+
+{% block redirect_url %}
+	/main/{{ numofattrs }}
+{% endblock %}
+	
+{% block form %}	
+	<input type="text" name="objectType" placeholder="object type"/>
+	<input type="text" name="attr" placeholder="attribute"/>
+	<input type="text" name="attrVal" placeholder="value of attribute"/>
+	<input type="text" name="link" placeholder="link"/>
+	{% for i in range(numofattrs) %}
+		<input type="text" name="attrToScrape{{i}}" placeholder="attribute to scrape"/>
+	{% endfor %}
+	<input type="text" name="numofattrstoscrape" placeholder="number of attributes to scrape"/>
+	<input type="submit"/>
+{% endblock %}
+
+{% block extra %}
+	{% for attr in attrs %}
+		<tr style="border: solid">
+			<th>{{ attr }}</th>
+			{% for value in attrs[attr] %}
+				<td>{{ value }}</td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+{% endblock %}
 
