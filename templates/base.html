@@ -2,32 +2,15 @@
 
 <html lang="en">
 	<head>
-		<title>Title</title>
+		<title>{% block title %}{% endblock %}</title>
 	</head>
 	<body>
-		<form method="POST" action="/main/{{ numofattrs }}">
-			<input type="text" name="objectType" placeholder="object type"/>
-			<input type="text" name="attr" placeholder="attribute"/>
-			<input type="text" name="attrVal" placeholder="value of attribute"/>
-			<input type="text" name="link" placeholder="link"/>
-			{% for i in range(numofattrs) %}
-				<input type="text" name="attrToScrape{{i}}" placeholder="attribute to scrape"/>
-			{% endfor %}
-			<input type="text" name="numofattrstoscrape" placeholder="number of attributes to scrape"/>
-			<input type="submit"/>
+		<form method="POST" action="{% block redirect_url %}{% endblock %}">
+			{% block form %}{% endblock %}
 		</form>
 		<br><br>
-		<table border="solid">
-			{% for attr in attrs %}
-				<tr style="border: solid">
-					<th>{{ attr }}</th>
-					{% for value in attrs[attr] %}
-						<td>{{ value }}</td>
-					{% endfor %}
-				</tr>
-			{% endfor %}
-		</table>
-		
+		{% block extra %}{% endblock %}
 	</body>
 </html>
+
 
