@@ -1,15 +1,12 @@
-<!doctype html>
+{% extends 'base.html' %}
 
-<html lang="en">
-	<head>
-		<title>Log in</title>
-	</head>
-	<body>
-		<form method="POST" action="/main/{{ numofattrs }}">
-			<input type="text" name="username" placeholder="Username"/>
-			<input type="password" name="password" placeholder="Password"/>
-			<input type="submit" value="Log in"/>
-			{{ message }}
-		</form>
-	</body>
-</html>
+{% block title %}
+	Log in
+{% endblock %}	
+	
+{% block form %}	
+	<input type="text" name="username" placeholder="Username"/>
+	<input type="password" name="password" placeholder="Password"/>
+	<input type="submit" value="Log in"/>
+	{{ message }}
+{% endblock %}
