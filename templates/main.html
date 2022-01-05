@@ -21,6 +21,7 @@
 {% endblock %}
 
 {% block extra %}
+	<table>
 	{% for attr in attrs %}
 		<tr style="border: solid">
 			<th>{{ attr }}</th>
@@ -29,5 +30,5 @@
 			{% endfor %}
 		</tr>
 	{% endfor %}
+	</table>
 {% endblock %}
-
