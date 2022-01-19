@@ -1,4 +1,4 @@
-import json
+from replit import db
 
 class User():
 
@@ -14,24 +14,12 @@ class User():
                 return toRet
 
         def getuser(username,password):
-                with open("users.json","r") as usersfile:
-                        users = json.load(usersfile)
-                        try:
-                                password2 = users[username][0]
-                                if password == password2:
-                                        return User(usename,password,users[username][1])
-                                else:
-                                        return None
-                        except:
-                                return None
+                if db[username] and db[username][0] == User.__encrypt(username,password):
+                        return User(username,db[username][0],db[username][1])
 
         def register(username,password):
-                users = None
-                with open("users.json","r") as usersfile:
-                        users = json.load(usersfile)
-                users.append({username:[User.__encrypt(username,password),[]]})
-                with open("users.json","w") as usersfile:
-                        json.dump(users,usersfile,indent=2)
+                if not db[username]:
+                        db[username] = [User.__encrypt(username,password),[]]
 
         def log_scrape(self,event):
                 self._history.append(event)
