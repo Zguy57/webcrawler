@@ -35,6 +35,10 @@ def main(numofattrs):
                 attrs = formatlst(onlydups(results))
         return render_template("main.html",attrs=attrs,numofattrs=int(numofattrs))
 
+@app.route("/login",methods=["GET","POST"])
+def login():
+        pass
+
 def onlydups(lstoflsts):
         toRet = []
         samplelst = lstoflsts.pop()
