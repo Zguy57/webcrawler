@@ -14,11 +14,11 @@ class User():
                 return toRet
 
         def get_user(username,password):
-                if db[username] and db[username][0] == User.__encrypt(username,password):
+                if username in db and db[username][0] == User.__encrypt(username,password):
                         return User(username,db[username][0],db[username][1])
 
         def register(username,password):
-                if not db[username]:
+                if not username in db:
                         db[username] = [User.__encrypt(username,password),[]]
 
         def log_scrape(self,event):
