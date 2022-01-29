@@ -1,5 +1,6 @@
 from flask import Flask,request,render_template, redirect
 import scraper
+from user_system import *
 
 app = Flask(__name__)
 
@@ -33,11 +34,17 @@ def main(numofattrs):
                                         for instance in scraper.scrape_object_by_attr(rules[rule][0],rules[rule][1],request.form["link"],attrname):
                                                  results[i].append({attrname:instance})
                 attrs = formatlst(onlydups(results))
-        return render_template("main.html",attrs=attrs,numofattrs=int(numofattrs))
+        return render_template("main.html", attrs=attrs, numofattrs=int(numofattrs))
 
 @app.route("/login",methods=["GET","POST"])
 def login():
-        pass
+        message = ""
+        if request.method == "POST":
+                if User.get_user(request.form["username"],request.form["password"]):
+                        message = "logged in successfully!"
+                else:
+                        message = "failed to log in!"
+        return render_template("user.html", operation="log in", message=message)
 
 def onlydups(lstoflsts):
         toRet = []
