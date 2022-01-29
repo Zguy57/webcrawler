@@ -13,7 +13,7 @@ class User():
                         toRet += chr((ord(password[i])+1)^(ord(username[i%len(username)])))
                 return toRet
 
-        def getuser(username,password):
+        def get_user(username,password):
                 if db[username] and db[username][0] == User.__encrypt(username,password):
                         return User(username,db[username][0],db[username][1])
 

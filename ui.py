@@ -46,6 +46,14 @@ def login():
                         message = "failed to log in!"
         return render_template("user.html", operation="log in", message=message)
 
+@app.route("/register",methods=["GET","POST"])
+def register():
+        message = ""
+        if request.method == "POST":
+                User.register(request.form["username"],request.form["password"])
+                message = "registered successfully!"
+        return render_template("user.html", operation="register", message=message)
+
 def onlydups(lstoflsts):
         toRet = []
         samplelst = lstoflsts.pop()
