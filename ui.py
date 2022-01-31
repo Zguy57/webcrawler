@@ -42,10 +42,10 @@ def login():
         message = ""
         if request.method == "POST":
                 if User.get_user(request.form["username"],request.form["password"]):
-                        message = "logged in successfully!"
+                        return redirect(f"/user/{request.form['username']}")
                 else:
                         message = "failed to log in!"
-        return render_template("user.html", operation="log in", message=message)
+        return render_template("connect.html", operation="log in", message=message)
 
 @app.route("/register",methods=["GET","POST"])
 def register():
@@ -53,7 +53,11 @@ def register():
         if request.method == "POST":
                 User.register(request.form["username"],request.form["password"])
                 message = "registered successfully!"
-        return render_template("user.html", operation="register", message=message)
-                                        
+        return render_template("connect.html", operation="register", message=message)
+
+@app.route("/user/<user>",methods=["GET","POST"])
+def main_user(user):
+        return "Hello " + user
+
 if __name__ == '__main__':
         app.run(host="0.0.0.0")
