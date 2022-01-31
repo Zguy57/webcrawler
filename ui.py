@@ -1,6 +1,7 @@
 from flask import Flask,request,render_template, redirect
 import scraper
 from user_system import *
+from extra import *
 
 app = Flask(__name__)
 
@@ -53,28 +54,6 @@ def register():
                 User.register(request.form["username"],request.form["password"])
                 message = "registered successfully!"
         return render_template("user.html", operation="register", message=message)
-
-def onlydups(lstoflsts):
-        toRet = []
-        samplelst = lstoflsts.pop()
-        for lst in lstoflsts:
-                for i,item in enumerate(samplelst):
-                        if not item in samplelst:
-                                samplelst[i] = False
-        for item in samplelst:
-                if item != False:
-                        toRet.append(item)
-        return toRet
-
-def formatlst(lst):
-        toRet = {}
-        for i,pair in enumerate(lst):
-                for key in pair:
-                        if key in toRet:
-                                toRet[key].append(pair[key])
-                        else:
-                                toRet[key] = [pair[key]]
-        return toRet
                                         
 if __name__ == '__main__':
         app.run(host="0.0.0.0")
