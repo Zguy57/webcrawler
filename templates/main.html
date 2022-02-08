@@ -21,12 +21,12 @@
 {% endblock %}
 
 {% block extra %}
-	<table>
+	<table style="border: solid">
 	{% for attr in attrs %}
-		<tr style="border: solid">
-			<th>{{ attr }}</th>
+		<tr>
+			<th style="border: solid">{{ attr }}</th>
 			{% for value in attrs[attr] %}
-				<td>{{ value }}</td>
+				<td style="border: solid">{{ value }}</td>
 			{% endfor %}
 		</tr>
 	{% endfor %}

@@ -1,10 +1,12 @@
 from flask import Flask,request,render_template, redirect
 import scraper
+from user_system import *
+from extra import *
 
 app = Flask(__name__)
 
 @app.route("/")
-def homepage():
+def home_page():
         return redirect("/main/0")
 
 @app.route("/main/<numofattrs>",methods=["GET","POST"])
@@ -33,29 +35,29 @@ def main(numofattrs):
                                         for instance in scraper.scrape_object_by_attr(rules[rule][0],rules[rule][1],request.form["link"],attrname):
                                                  results[i].append({attrname:instance})
                 attrs = formatlst(onlydups(results))
-        return render_template("main.html",attrs=attrs,numofattrs=int(numofattrs))
+        return render_template("main.html", attrs=attrs, numofattrs=int(numofattrs))
 
-def onlydups(lstoflsts):
-        toRet = []
-        samplelst = lstoflsts.pop()
-        for lst in lstoflsts:
-                for i,item in enumerate(samplelst):
-                        if not item in samplelst:
-                                samplelst[i] = False
-        for item in samplelst:
-                if item != False:
-                        toRet.append(item)
-        return toRet
+@app.route("/login",methods=["GET","POST"])
+def log_in():
+        message = ""
+        if request.method == "POST":
+                if User.get_user(request.form["username"],request.form["password"]):
+                        return redirect(f"/user/{request.form['username']}")
+                else:
+                        message = "failed to log in!"
+        return render_template("connect.html", operation="log in", message=message)
 
-def formatlst(lst):
-        toRet = {}
-        for i,pair in enumerate(lst):
-                for key in pair:
-                        if key in toRet:
-                                toRet[key].append(pair[key])
-                        else:
-                                toRet[key] = [pair[key]]
-        return toRet
-                                        
+@app.route("/register",methods=["GET","POST"])
+def register():
+        message = ""
+        if request.method == "POST":
+                User.register(request.form["username"],request.form["password"])
+                message = "registered successfully!"
+        return render_template("connect.html", operation="register", message=message)
+
+@app.route("/user/<user>",methods=["GET","POST"])
+def main_user(user):
+        return "Hello " + user
+
 if __name__ == '__main__':
-        app.run()
+        app.run(host="0.0.0.0")
