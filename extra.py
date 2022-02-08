@@ -4,7 +4,7 @@ def encrypt(key,text):
                 toRet += chr((ord(text[i])+1)^(ord(key[i%len(key)])))
         return toRet
 
-def onlydups(lstoflsts):
+def only_dups(lstoflsts):
         toRet = []
         samplelst = lstoflsts.pop()
         for lst in lstoflsts:
@@ -16,7 +16,7 @@ def onlydups(lstoflsts):
                         toRet.append(item)
         return toRet
 
-def formatlst(lst):
+def format_lst(lst):
         toRet = {}
         for i,pair in enumerate(lst):
                 for key in pair:

@@ -6,7 +6,7 @@ from extra import *
 app = Flask(__name__)
 
 @app.route("/")
-def homepage():
+def home_page():
         return redirect("/main/0")
 
 @app.route("/main/<numofattrs>",methods=["GET","POST"])
@@ -38,7 +38,7 @@ def main(numofattrs):
         return render_template("main.html", attrs=attrs, numofattrs=int(numofattrs))
 
 @app.route("/login",methods=["GET","POST"])
-def login():
+def log_in():
         message = ""
         if request.method == "POST":
                 if User.get_user(request.form["username"],request.form["password"]):
