@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}welcome{% endblock %}
+
+{% block redirect_url %}/main_user{% endblock %}
+
+{% block form %}
+  Hello {{ username }}!
+  <input type="submit" value="Begin scraping"/>
+{% endblock %}

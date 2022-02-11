@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}fail{% endblock %}
+
+{% block redirect_url %}/login{% endblock %}
+
+{% block form %}
+  failed to log in!
+  <input type="submit" value="Go back"/>
+{% endblock %}

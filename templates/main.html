@@ -5,18 +5,18 @@
 {% endblock %}	
 
 {% block redirect_url %}
-	/main/{{ numofattrs }}
+	/main/{{ num_of_attrs }}
 {% endblock %}
-	
+
 {% block form %}	
 	<input type="text" name="objectType" placeholder="object type"/>
 	<input type="text" name="attr" placeholder="attribute"/>
 	<input type="text" name="attrVal" placeholder="value of attribute"/>
 	<input type="text" name="link" placeholder="link"/>
-	{% for i in range(numofattrs) %}
+	{% for i in range(num_of_attrs) %}
 		<input type="text" name="attrToScrape{{i}}" placeholder="attribute to scrape"/>
 	{% endfor %}
-	<input type="text" name="numofattrstoscrape" placeholder="number of attributes to scrape"/>
+	<input type="number" name="numofattrstoscrape" placeholder="number of attributes to scrape"/>
 	<input type="submit"/>
 {% endblock %}
 

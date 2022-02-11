@@ -15,6 +15,8 @@ class User():
         def register(username,password):
                 if not username in db:
                         db[username] = [encrypt(username,password),[]]
+                        return True
+                return False
 
         def log_scrape(self,event):
                 self._history.append(event)
