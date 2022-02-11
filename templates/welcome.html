@@ -6,5 +6,6 @@
 
 {% block form %}
   Hello {{ username }}!
+  <input type="hidden" name="username" value="{{ username }}"/>
   <input type="submit" value="Begin scraping"/>
 {% endblock %}
