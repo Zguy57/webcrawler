@@ -86,10 +86,10 @@ def main_user():
 
 @app.route("/view_history", methods=["GET","POST"])
 def view_history():
-        userslst = []
+        historylst = []
         for user in db:
-                userslst.append(json.loads(db[user]))
-        return render_template("view_history.html", users=userslst)
+                historylst.append((user,dict(json.loads(db[user]))["_history"]))
+        return render_template("view_history.html", users=historylst)
 
 if __name__ == '__main__':
         app.run(host="0.0.0.0")
