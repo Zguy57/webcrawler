@@ -6,6 +6,23 @@
 
 {% block form %}
   Hello {{ username }}!
-  <input type="hidden" name="username" value="{{ username }}"/>
+  <input type="number" name="num_of_attrs" placeholder="number of attrs"/>
   <input type="submit" value="Begin scraping"/>
+{% endblock %}
+
+{% block extra %}
+  This is your history:
+
+  {% for scrape in history %}
+    <table style="border: solid">
+  	{% for attr in scrape %}
+  		<tr>
+  			<th style="border: solid">{{ attr }}</th>
+  			{% for value in scrape[attr] %}
+  				<td style="border: solid">{{ value }}</td>
+  			{% endfor %}
+  		</tr>
+  	{% endfor %}
+  	</table>
+  {% endfor %}
 {% endblock %}

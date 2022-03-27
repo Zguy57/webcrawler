@@ -1,10 +1,11 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, make_response
 import json
 import scraper
 from user_system import *
 from extra import *
 
 app = Flask(__name__)
+app.secret_key = "abcdefg"
 
 @app.route("/")
 def home_page():
@@ -40,36 +41,55 @@ def main(numofattrs):
         if request.method == "POST":
                 if request.form["numofattrstoscrape"]:
                         return redirect(f"/main/{request.form['numofattrstoscrape']}")
-                attrs = manage_scraping(request.form,numofattrs)
-        return render_template("main.html", attrs=attrs, num_of_attrs=int(numofattrs))
+                attrs = manage_scraping(request.form, numofattrs)
+        return render_template("main.html", attrs=attrs, num_of_attrs=int(numofattrs), redirect_url=f"/main/{int(numofattrs)}", username="Guest")
 
 @app.route("/login",methods=["GET","POST"])
 def log_in():
-        return render_template("connect.html", operation="Log in", message="", url="/user")
+        return render_template("connect.html", operation="Log in", message="", url="/welcome_user")
 
 @app.route("/register",methods=["GET","POST"])
 def register():
         message = ""
         if request.method == "POST":
-                if User.register(request.form["username"],request.form["password"]):
+                if User.register(request.form["username"], request.form["password"]):
                         message = "registered successfully!"
                 else:
                         message = "Username already taken!"
         return render_template("connect.html", operation="Register", message=message)
 
-@app.route("/user",methods=["GET","POST"])
+@app.route("/welcome_user",methods=["GET","POST"])
 def welcome_user():
         if request.method == "POST":
-                if User.get_user(request.form["username"],request.form["password"]):
-                        return render_template("welcome.html",username=request.form["username"])
+                user = User.get_user(request.form["username"], request.form["password"])
+                if user:
+                        resp = make_response(render_template("welcome.html", username=request.form["username"], history=user.get_history()))
+                        resp.set_cookie("username", request.form["username"])
+                        return resp
                 else:
                         return render_template("failed.html")
         else:
                 return "It seems like you're messing up with urls. Don't you?"
 
-@app.route("/main_user",methods=["GET","POST"])
+@app.route("/main_user", methods=["GET","POST"])
 def main_user():
-        return "Todo"
+        if request.method == "POST":
+                if "objectType" not in request.form or "num_of_attrs" in request.form:
+                        resp = make_response(render_template("main.html", attrs={}, num_of_attrs=int(request.form["num_of_attrs"]), redirect_url="/main_user"))
+                        resp.set_cookie("num_of_attrs", request.form["num_of_attrs"])
+                        return resp
+                attrs = manage_scraping(request.form, int(request.cookies.get("num_of_attrs")))
+                Online[request.cookies.get("username")].log_scrape(attrs)
+                return render_template("main.html", attrs=attrs, num_of_attrs=int(request.cookies.get("num_of_attrs")), redirect_url="main_user")
+        else:
+                return "It seems like you're messing up with urls. Don't you?" 
+
+@app.route("/view_history", methods=["GET","POST"])
+def view_history():
+        userslst = []
+        for user in db:
+                userslst.append(json.loads(db[user]))
+        return render_template("view_history.html", users=userslst)
 
 if __name__ == '__main__':
         app.run(host="0.0.0.0")
