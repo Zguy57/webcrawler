@@ -7,8 +7,15 @@
 {% block redirect_url %}{{ url }}{% endblock %}
 
 {% block form %}
-	<input type="text" name="username" placeholder="Username"/>
-	<input type="password" name="password" placeholder="Password"/>
+  {% if show_username %}
+	  <input type="text" name="username" placeholder="Username"/>
+  {% endif %}
+  {% if show_password %}
+	  <input type="password" name="password" placeholder="Password"/>
+  {% endif %}
+  {% if show_email %}
+	  <input type="text" name="email" placeholder="Email"/>
+  {% endif %}
 	<input type="submit" value="{{ operation }}"/>
 	{{ message }}
 {% endblock %}

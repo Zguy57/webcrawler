@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}view history{% endblock %}
+
+{% block extra %}
+  {% for user in users %}
+    <h1>{{ user[0] }}</h1>
+    {% for scrape in user[1] %}
+      <table style="border: solid">
+    	{% for attr in scrape %}
+    		<tr>
+    			<th style="border: solid">{{ attr }}</th>
+    			{% for value in scrape[attr] %}
+    				<td style="border: solid">{{ value }}</td>
+    			{% endfor %}
+    		</tr>
+    	{% endfor %}
+    	</table>
+    {% endfor %}
+  {% endfor %}
+{% endblock %}

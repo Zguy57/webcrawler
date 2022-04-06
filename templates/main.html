@@ -5,7 +5,7 @@
 {% endblock %}	
 
 {% block redirect_url %}
-	/main/{{ num_of_attrs }}
+	{{ redirect_url }}
 {% endblock %}
 
 {% block form %}	
@@ -13,22 +13,27 @@
 	<input type="text" name="attr" placeholder="attribute"/>
 	<input type="text" name="attrVal" placeholder="value of attribute"/>
 	<input type="text" name="link" placeholder="link"/>
-	{% for i in range(num_of_attrs) %}
-		<input type="text" name="attrToScrape{{i}}" placeholder="attribute to scrape"/>
-	{% endfor %}
-	<input type="number" name="numofattrstoscrape" placeholder="number of attributes to scrape"/>
-	<input type="submit"/>
+	<input type="text" name="attrsToScrape" placeholder="attributes to scrape"/>
+	<input type="submit" name="submit" value="Submit"/>
+  {% if not final_stage %}
+    {% for tree in attrs %}
+      <br>
+      <input type="submit" name="submit"  value="{{tree}}" style="border: none; background-color: white"/>
+    {% endfor %}
+  {% endif %}
 {% endblock %}
 
 {% block extra %}
-	<table style="border: solid">
-	{% for attr in attrs %}
-		<tr>
-			<th style="border: solid">{{ attr }}</th>
-			{% for value in attrs[attr] %}
-				<td style="border: solid">{{ value }}</td>
-			{% endfor %}
-		</tr>
-	{% endfor %}
-	</table>
+  {% if final_stage %}
+  	<table style="border: solid">
+  	{% for attr in attrs %}
+  		<tr>
+  			<th style="border: solid">{{ attr }}</th>
+  			{% for value in attrs[attr] %}
+  				<td style="border: solid">{{ value }}</td>
+  			{% endfor %}
+  		</tr>
+  	{% endfor %}
+  	</table>
+  {% endif %}
 {% endblock %}
