@@ -2,12 +2,16 @@
 
 {% block title %}welcome{% endblock %}
 
-{% block redirect_url %}/main_user{% endblock %}
+{% block redirect_url %}/nav_user{% endblock %}
 
 {% block form %}
   Hello {{ username }}!
-  <input type="number" name="num_of_attrs" placeholder="number of attrs"/>
-  <input type="submit" value="Begin scraping"/>
+  <input type="submit" name="submit" value="Begin scraping"/>
+  <input type="submit" name="submit" value="Change password"/>
+  {% if is_manager %}
+    <input type="submit" name="submit" value="Manager page"/>
+  {% endif %}
+  <input type="submit" name="submit" value="Log out"/>
 {% endblock %}
 
 {% block extra %}
