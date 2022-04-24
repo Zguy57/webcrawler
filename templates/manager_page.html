@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Manager page
+{% endblock %}	
+	
+{% block redirect_url %}/manager_page{% endblock %}
+
+{% block form %}
+  <input list="operations" name="operation" placeholder="Operation"/>
+  <datalist id="operations">
+    <option value="ban user"/>
+    <option value="unban user"/>
+  </datalist>
+  <input type="text" name="username" placeholder="Username"/>
+  <input type="submit" name="submit" value="Submit"/>
+  <input type="submit" name="submit" value="Show managers history"/>
+  <input type="submit" name="submit" value="Show users history"/>
+  {{ message }}
+{% endblock %}

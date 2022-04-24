@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	{{ which }} history
+{% endblock %}	
+
+{% block redirect_url %}/{{ which }}_history{% endblock %}
+
+{% block form %}
+  <input type="text" name="userRegex" placeholder="Filter users by regex"/>
+  <input type="submit" name="submit" value="Submit"/>
+{% endblock %}
+
+{% block extra %}
+  This is the {{ which }} history: <br>
+  {% if which == "manager" %}
+    {% for manager in history %}
+      {{ manager["username"] }}
+      {% for operation in manager["operations"] %}
+        <table style="border: solid">
+          {{ operation|safe }}
+        </table>
+      {% endfor %}
+    {% endfor %}
+  {% else %}
+    {% for user in users %}
+      {{ user["_username"] }}
+      {% for scrape in user["_history"] %}
+      <table style="border: solid">
+      	{% for attr in scrape %}
+      		<tr>
+      			<th style="border: solid">{{ attr }}</th>
+      			{% for value in scrape[attr] %}
+      				<td style="border: solid">{{ value }}</td>
+      			{% endfor %}
+      		</tr>
+      	{% endfor %}
+      	</table>
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}

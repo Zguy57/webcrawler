@@ -9,7 +9,7 @@ def only_dups(lstoflsts):
         samplelst = lstoflsts.pop()
         for lst in lstoflsts:
                 for i,item in enumerate(samplelst):
-                        if not item in samplelst:
+                        if not item in lst:
                                 samplelst[i] = False
         for item in samplelst:
                 if item != False:
