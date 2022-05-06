@@ -7,11 +7,56 @@ import datetime
 
 Online = {}
 
-EMAIL_PATTERN = "[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+"
+EMAIL_PATTERN = "[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z\.0-9]+"
 
+class Scrape:
+  
+        '''
+          This class is used for representing a single scrape made by a user.
 
+          Attributes:
+            scrape_id: integer
+              A unique 4-digit id given to a new scrape in order to help in finding it and differentiating it from other scrapes.
+            content: dictionary
+              The content of a scrape is stored as a dictionary such that the key is the name of an attribute in the scrape request and the value is a list of values stored in different objects at this attribute. (for example: {"url":["www.google.com","replit.com"], "bgcolor":["white","white"]})
+        '''
+  
+        def __init__(self, scrape_id: int, content: dict):
+                self._scrape_id = scrape_id
+                self._content = content
+
+        def get_id(self):
+                '''This is an object function that returns the unique id of a scrape.'''
+                return self._scrape_id
+
+        def get_content(self):
+                '''This is an object function that returns the content of a scrape.'''
+                return self._content
+
+        def log_scrape(content: dict):
+                '''This function takes the content of a scrape and stores its data as an object.'''
+                x = random.randint(1000,9999)
+                while x in db["scrapes"]:
+                        x = random.randint(1000,9999)
+                scr = Scrape(x, content)
+                db["scrapes"][str(x)] = scr.__dict__
+                return str(x)
 
 class User():
+
+        '''
+          This class is used for representing a user on the site.
+
+          Attributes:
+            username: str
+              A unique username, that the user gave himself while he registered.
+            password: str
+              An encrypted password which is used for protecting the user account.
+            email: str
+              The user's email.
+            history: list
+              A list of scrape ids of the scrapes the user committed.
+        '''
       
         def __init__(self, username: str, password: str, email: str, history: list):
                 self._username = username
@@ -41,12 +86,12 @@ class User():
 
         def log_scrape(self, event: str):
                 '''This is an object function that logs a new scrape that a user made in the replit database.'''
-                self._history.append(event)
+                self._history.append(Scrape.log_scrape(event))
                 db["users"][self._username] = self.__dict__
 
         def get_history(self):
                 '''This is an object function that retrieves a user's history.'''
-                return self._history
+                return [db["scrapes"][x]["_content"] for x in self._history]
 
         def get_username(self):
                 '''This is an object function that retrieves a user's username.'''
@@ -57,14 +102,30 @@ class User():
                 return self._email
 
         def change_password(self, newpass):
-            self._password = encrypt(self._username, newpass)
-            db["users"][self._username] = self.__dict__
+                '''This is an object function that changes a user's password.'''
+                self._password = encrypt(self._username, newpass)
+                db["users"][self._username] = self.__dict__
           
         def log_out(self):
                 '''This is an object function that logs out a user'''
+                del Online[self._username]
                 del self
 
 class ManagerOperation:
+
+        '''
+          This class is used for representing a simple operation done by a manager.
+
+          Attributes:
+            operation: str
+              The operation that the manager did.
+            username: str
+              The username of the user whom the operation was done on.
+            time: str
+              The time that the operation was done.
+            operation_id: str
+              A unique 4-digit id given to an operation in order to help in finding it and differentiating it from other operations.
+        '''
 
         def __init__(self, operation: str, username: str, time: str, operation_id: int):
                 self._operation = operation
@@ -81,11 +142,21 @@ class ManagerOperation:
 
 class Manager(User):
 
+        '''
+          This class inherits functions and attributes from the user class, and it is used for representing a manager.
+
+          Attributes:
+            inherited: username, password, email, history.
+            management_history: list
+              A list of operation ids of operations done by a manager.
+        '''
+
         def __init__(self, username: str, password: str, email: str, history: list, management_history: list):
                 super().__init__(username, password, email, history)
                 self._management_history = management_history
 
         def ban_user(self, username: str):
+                '''This is an object function that bans a user and relates the ban to the manager.'''
                 user = db["users"][username]
                 db["banned"][username] = User(user["_username"], user["_password"], user["_email"], user["_history"]).__dict__
                 del db["users"][username]
@@ -96,6 +167,7 @@ class Manager(User):
                 self._management_history.append(x)
 
         def unban_user(self, username: str):
+                '''This is an object function that unbans a user and relates the unban to the manager.'''
                 user = db["banned"][username]
                 db["users"][username] = User(user["_username"], user["_password"], user["_email"], user["_history"]).__dict__
                 del db["banned"][username]
@@ -110,17 +182,19 @@ class Manager(User):
               db["managers"][self._username] = self.__dict__
 
         def log_scrape(self, event: str):
-                '''This is an object function that logs a new scrape that a user made in the replit database.'''
-                self._history.append(event)
+                self._history.append(Scrape.log_scrape(event))
                 db["managers"][self._username] = self.__dict__
 
-        def cmd_manager(username: str):
+        def set_manager(username: str):
+                '''This is a class function that sets a new manager.'''
                 user = db["users"][username]
                 db["managers"][username] = Manager(user["_username"], user["_password"],  user["_email"], user["_history"], []).__dict__
                 del db["users"][username]
 
         def reset():
+                '''This function cleans the replit database.'''
                 db["users"] = {}
                 db["managers"] = {}
                 db["operations"] = {}
+                db["scrapes"] = {}
       

@@ -12,6 +12,8 @@
 {% endblock %}
 
 {% block extra %}
+  <a href="/manager_page">Go back</a>
+  <br>
   This is the {{ which }} history: <br>
   {% if which == "manager" %}
     {% for manager in history %}
@@ -24,8 +26,8 @@
     {% endfor %}
   {% else %}
     {% for user in users %}
-      {{ user["_username"] }}
-      {% for scrape in user["_history"] %}
+      {{ user["username"] }}
+      {% for scrape in user["history"] %}
       <table style="border: solid">
       	{% for attr in scrape %}
       		<tr>
