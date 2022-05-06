@@ -16,14 +16,16 @@
 	<input type="text" name="attrsToScrape" placeholder="attributes to scrape"/>
 	<input type="submit" name="submit" value="Submit"/>
   {% if not final_stage %}
+    <br><br>
     {% for tree in attrs %}
       <br>
-      <input type="submit" name="submit"  value="{{tree}}" style="border: none; background-color: white"/>
+      <input type="submit" name="submit" value="{{ tree }}" class="htmlObj"/>
     {% endfor %}
   {% endif %}
 {% endblock %}
 
 {% block extra %}
+  <a href="{{ back_url }}">{{ back_text }}</a>
   {% if final_stage %}
   	<table style="border: solid">
   	{% for attr in attrs %}

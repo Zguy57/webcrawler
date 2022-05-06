@@ -5,11 +5,55 @@
 		<title>{% block title %}{% endblock %}</title>
 	</head>
 	<body>
-		<form method="POST" action="{% block redirect_url %}{% endblock %}">
+		<form method="POST" class="mainform" action="{% block redirect_url %}{% endblock %}">
 			{% block form %}{% endblock %}
 		</form>
 		<br><br>
 		{% block extra %}{% endblock %}
+     
+    <style>
+      .mainform {
+        background-color: rgba(20, 20, 20, 0.9);
+        box-shadow: 1px 5px rgba(50, 50, 50, 0.5);
+        color: white;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 5px;
+        padding-right: 5px;
+        width: fit-content;
+      }
+      input[type=submit] {
+        background-color: rgba(20, 150, 20, 0.9);
+        box-shadow: 1px 3px rgba(50, 180, 50, 0.5);
+        border: none;
+        border-radius: 4px;
+        color: white;
+        transition: 0.1s;
+      }
+      input[type=submit]:hover {
+        background-color: rgba(50, 200, 50, 0.9);
+        box-shadow: 1px 3px rgba(70, 250, 70, 0.5);
+        font-size: 20px;
+        transition: 0.1s;
+      }
+      input[type=submit]:active {
+        background-color: rgba(70, 250, 70, 0.5);
+        box-shadow: None;
+        font-size: 20px;
+      }
+      .htmlObj {
+        background-color: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        transition: 0.1s;
+      }
+      .htmlObj:hover{
+        font-size: 20px;
+        color: blue !important;
+        transition: 0.1s;
+      }
+      {% block style %}{% endblock %}
+    </style>
 	</body>
 </html>
 

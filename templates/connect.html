@@ -22,3 +22,10 @@
 	<input type="submit" value="{{ operation }}"/>
 	{{ message }}
 {% endblock %}
+
+{% block extra %}
+  <a href="{{ back_url }}">{{ back_text }}</a>
+  {% if operation == "Log in" %}
+    <a href="/forgot">Forgot username or password</a>
+  {% endif %}
+{% endblock %}
