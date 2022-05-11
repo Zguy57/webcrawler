@@ -29,10 +29,10 @@
       {{ user["username"] }}
       {% for scrape in user["history"] %}
       <table style="border: solid">
-      	{% for attr in scrape %}
+      	{% for attr in scrape[0] %}
       		<tr>
       			<th style="border: solid">{{ attr }}</th>
-      			{% for value in scrape[attr] %}
+      			{% for value in scrape[0][attr] %}
       				<td style="border: solid">{{ value }}</td>
       			{% endfor %}
       		</tr>

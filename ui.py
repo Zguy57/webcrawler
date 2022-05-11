@@ -157,19 +157,27 @@ def register():
 def user_page():
     '''This function is responsible for rendering the user page'''
     if request.method == "POST":
-        user = User.get_user(request.form["username"],
-                             request.form["password"])
-        if user:
-            resp = make_response(
-                render_template("user_page.html",
-                                username=request.form["username"],
-                                history=user.get_history(),
-                                is_manager=request.form["username"]
-                                in db["managers"]))
-            resp.set_cookie("username", request.form["username"])
-            return resp
+        if "submit" in request.form and request.form["submit"] == "Delete":
+            Online[request.cookies.get("username")].delete_scrape(request.form["scrapeId"])
+            return render_template(
+            "user_page.html",
+            username=request.cookies.get("username"),
+            history=Online[request.cookies.get("username")].get_history(),
+            is_manager=request.cookies.get("username") in db["managers"])
         else:
-            return render_template("failed.html")
+            user = User.get_user(request.form["username"],
+                                 request.form["password"])
+            if user:
+                resp = make_response(
+                    render_template("user_page.html",
+                                    username=request.form["username"],
+                                    history=user.get_history(),
+                                    is_manager=request.form["username"]
+                                    in db["managers"]))
+                resp.set_cookie("username", request.form["username"])
+                return resp
+            else:
+                return render_template("failed.html")
     elif request.cookies.get("username") in Online:
         return render_template(
             "user_page.html",

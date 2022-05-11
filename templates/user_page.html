@@ -18,15 +18,24 @@
   This is your history:
 
   {% for scrape in history %}
+    <br>
     <table style="border: solid">
-  	{% for attr in scrape %}
+  	{% for attr in scrape[0] %}
   		<tr>
   			<th style="border: solid">{{ attr }}</th>
-  			{% for value in scrape[attr] %}
+  			{% for value in scrape[0][attr] %}
   				<td style="border: solid">{{ value }}</td>
   			{% endfor %}
   		</tr>
   	{% endfor %}
+      <tr>
+        <th>
+          <form method="POST" action="/user_page" style="padding-bottom: 3px;">
+            <input type="hidden" name="scrapeId" value="{{scrape[1]}}"/>
+            <input type="submit" name="submit" value="Delete"/>
+          </form>
+        </th>
+      </tr>
   	</table>
   {% endfor %}
 {% endblock %}

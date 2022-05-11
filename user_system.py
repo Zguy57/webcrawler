@@ -89,9 +89,15 @@ class User():
                 self._history.append(Scrape.log_scrape(event))
                 db["users"][self._username] = self.__dict__
 
+        def delete_scrape(self, scrape_id: str):
+                '''This is an object function that deletes a scrape form the database.'''
+                self._history.remove(scrape_id)
+                db["users"][self._username] = self.__dict__
+                del db["scrapes"][scrape_id]
+
         def get_history(self):
                 '''This is an object function that retrieves a user's history.'''
-                return [db["scrapes"][x]["_content"] for x in self._history]
+                return [(db["scrapes"][x]["_content"], x) for x in self._history]
 
         def get_username(self):
                 '''This is an object function that retrieves a user's username.'''
@@ -185,6 +191,11 @@ class Manager(User):
                 self._history.append(Scrape.log_scrape(event))
                 db["managers"][self._username] = self.__dict__
 
+        def delete_scrape(self, scrape_id: str):
+                self._history.remove(scrape_id)
+                db["managers"][self._username] = self.__dict__
+                del db["scrapes"][scrape_id]
+
         def set_manager(username: str):
                 '''This is a class function that sets a new manager.'''
                 user = db["users"][username]
@@ -197,4 +208,5 @@ class Manager(User):
                 db["managers"] = {}
                 db["operations"] = {}
                 db["scrapes"] = {}
+                db["banned"] = {}
       
