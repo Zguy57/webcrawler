@@ -1,6 +1,5 @@
 from replit import db
 from extra import *
-import json
 import re
 import random
 import datetime
