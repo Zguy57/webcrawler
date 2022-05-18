@@ -84,7 +84,7 @@ class User():
                         return True
                 return False
 
-        def log_scrape(self, event: str):
+        def log_scrape(self, event: dict):
                 '''This is an object function that logs a new scrape that a user made in the replit database.'''
                 self._history.append(Scrape.log_scrape(event))
                 db["users"][self._username] = self.__dict__
